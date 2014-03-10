@@ -624,6 +624,7 @@ static int pyth_metric_init (apr_pool_t *p)
             err_msg("[PYTHON] Can't import the metric module [%s].\n", modname);
             if (PyErr_Occurred()) {
                 PyErr_Print();
+                PyErr_Clear();
             }
             gtstate = PyEval_SaveThread();
             continue;
@@ -656,6 +657,7 @@ static int pyth_metric_init (apr_pool_t *p)
             err_msg("[PYTHON] Can't call the metric_init function in the python module [%s].\n", modname);
             if (PyErr_Occurred()) {
                 PyErr_Print();
+                PyErr_Clear();
             }
             Py_DECREF(pinitfunc);
             Py_DECREF(pmod);
@@ -731,6 +733,7 @@ static apr_status_t pyth_metric_cleanup ( void *data)
                 Py_XDECREF(pobj);
                 if (PyErr_Occurred()) {
                     PyErr_Print();
+                    PyErr_Clear();
                 }
             }
             Py_XDECREF(pcleanup);
@@ -778,6 +781,7 @@ static g_val_t pyth_metric_handler( int metric_index )
                 gmi[metric_index].name, mi[metric_index].mod_name);
         if (PyErr_Occurred()) {
             PyErr_Print();
+            PyErr_Clear();
         }
         gtstate = PyEval_SaveThread();
         /* return what? */
